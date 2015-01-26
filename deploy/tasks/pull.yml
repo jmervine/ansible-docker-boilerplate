@@ -1,0 +1,2 @@
+- command: "docker pull {{ docker.registry | default(blank) }}{{ container.image }}"
+

@@ -1,0 +1,12 @@
+# with container name
+- name: "docker run [ARGS] --name=NAME IMAGE [COMMAND]"
+  command: "docker run {{ container.args | default(blank) }} --name {{ container.name }} {{ docker.registry | default(blank) }}{{ container.image }} {{ container.command | default(blank) }}"
+  register: result
+  when: container.name is defined
+
+# without container name
+- name: "docker run [ARGS] IMAGE [COMMAND]"
+  command: "docker run {{ container.args | default(blank) }} {{ docker.registry | default(blank) }}{{ container.image }} {{ container.command | default(blank) }}"
+  register: result
+  when: container.name is not defined
+

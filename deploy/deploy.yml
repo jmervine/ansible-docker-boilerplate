@@ -1,0 +1,11 @@
+- hosts: docker-hosts
+  sudo: yes
+  serial: 10
+  vars_files:
+  - _vars.yml
+
+  tasks:
+    - include: tasks/pull.yml
+    - include: tasks/stop.yml
+    - include: tasks/rm.yml
+    - include: tasks/run.yml

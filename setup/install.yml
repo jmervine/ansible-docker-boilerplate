@@ -1,0 +1,46 @@
+- hosts: docker-hosts
+  sudo: yes
+  serial: 10
+
+  tasks:
+
+    # CentOS
+    ###
+    - debug: msg="CentOS versions less than 6 are not supported at this time."
+      when: ansible_os_family == "CentOS" and ansible_lsb.major_release|int < 6
+
+    - name: "CentOS 6 Docker Installation"
+      command: yum install -y docker-io
+      register: result
+      when: ansible_os_family == "CentOS" and ansible_lsb.major_release|int == 6
+
+    - name: "CentOS 7 Docker Installation"
+      command: yum install -y docker
+      register: result
+      when: ansible_os_family == "CentOS" and ansible_lsb.major_release|int == 7
+
+    # Ubuntu
+    ###
+    - debug: msg="Ubuntu versions less than 13 are not supported at this time."
+      when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int < 13
+
+    # Setup
+    - name: "Ubuntu Raring/Saucy Docker Setup - key add"
+      command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+      when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int == 13
+
+    - name: "Ubuntu Raring/Saucy Docker Setup - source add"
+      command: echo deb http://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+      when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int == 13
+
+    - name: "Ubuntu Docker Setup - update"
+      command: apt-get update
+      when: ansible_os_family == "Ubuntu"
+
+    - name: "Ubuntu Raring/Saucy Docker Installation"
+      command: apt-get install lxc-docker
+      when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int == 13
+
+    - name: "Ubuntu Trusty Docker Installation"
+      command: apt-get install docker.io
+      when: ansible_os_family == "Ubuntu" and ansible_lsb.major_release|int == 14

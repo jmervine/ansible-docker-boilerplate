@@ -1,0 +1,3 @@
+- command: "docker stop {{ container.name }}"
+  ignore_errors: True
+  when: container.name is defined

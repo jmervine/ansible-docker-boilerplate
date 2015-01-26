@@ -1,0 +1,30 @@
+# DO NOT CHANGE: used in setting variable defaults to an
+# empty string
+blank: ""
+
+docker:
+  # private registry, if applicable -- defaults to blank and
+  # is included as part of the task (see tasks/run.yml)
+  #registry: registry.example.com/
+  #
+  # ^ note trailing slash required
+
+container:
+
+  # container.name is optional for the 'run' and 'deploy'
+  # tasks, but required for all other tasks. However, if
+  # container.name is unset, other tasks will simply be
+  # skipped, not fail
+  name: container-name
+
+  # docker.image is required for playbooks which include
+  # the 'pull' and 'run' tasks
+  #
+  # docker.registry is set above and included as part of the
+  # task if set
+  image: "image-name:image-tag"
+
+  # docker.args sets all "docker run" arguments, except
+  # '--name', which should be set via container.name
+  # above
+  args: "-d -p 3000:3000 '--restart=on-failure:10'"

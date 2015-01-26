@@ -1,0 +1,4 @@
+- command: "docker rm {{ container.name }}"
+  ignore_errors: True
+  when: container.name is defined
+
