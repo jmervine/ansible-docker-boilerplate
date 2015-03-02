@@ -13,4 +13,3 @@ The `setup/*.yml` playbooks are for installing docker and preforming basic actio
 ## deploy
 
 The `deploy/*.yml` playbooks are for deploying a container and preforming basic interactions with running containers.
-
